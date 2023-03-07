@@ -14,7 +14,7 @@ contact: zack.brady@rancherfederal.com, andy.clemenko@rancherfederal.com
 * [Introduction](#introduction)
 * [Rancher Stack](#rancher-stack)
 * [Rancher Deployment Strategy](#rancher-deployment-strategy)
-* [Node Sizing | CPU, Memory, and Storage](#Node Sizing | CPU, Memory, and Storage)
+* [Node Sizing | CPU, Memory, and Storage](#node-sizing--cpu-memory-and-storage)
   * [Operating System](#operating-system)
   * [Selinux](#selinux)
   * [Kernel Tweaks](#kernel-tweaks)
