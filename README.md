@@ -53,22 +53,34 @@ There are other great products in the catalog, but we are going to focus on the 
 
 Let's look at the Rancher Deployment Strategy before we talk specifics.
 
-
 ## Rancher Deployment Strategy
 
 ![spoke](/images/topo.jpg)
 
 The good news is that there is quite a bit of [documentation](https://ranchermanager.docs.rancher.com/reference-guides/best-practices/rancher-server/rancher-deployment-strategy) on the two Rancher Deployment Strategies. We are going to focus on the Hub & Spoke Strategy. This will give us the best flexibility for most use cases. When looking at the Hub & Spoke Strategy we need to break down the requirements for the Hub cluster and the Spoke clusters.
 
-Starting with the Hub cluster. The focus of the Hub cluster is provide enough resources for the Rancher "application" to manage the downstream clusters. The important components for the Hub cluster is cpu and memory for [etcd](https://etcd.io/). This means we need to give a little more cpu/memory head room for this cluster. Good news is that we do not need as much disk space. The number of nodes is also important. We want to ensure that we have high availability, aka redundancy. There are some good docs for [HA RKE2](https://docs.rke2.io/install/ha).
+Starting with the Hub cluster. The focus of the Hub cluster is provide enough resources for the Rancher "application" to manage the downstream clusters. The important components for the Hub cluster is cpu and memory for [etcd](https://etcd.io/). This means we need to give a little more cpu/memory head room for this cluster. Good news is that we do not need as much disk space. The number of nodes is also important. We want to ensure that we have high availability, aka redundancy. There are some good docs for [HA RKE2](https://docs.rke2.io/install/ha). The Rancher [documentation](https://ranchermanager.docs.rancher.com/reference-guides/best-practices/rancher-server/tips-for-running-rancher) has a few tips to think about.
 
-The Spoke clusters have a slightly different strategy. 
+The Spoke clusters have a slightly different strategy. [HA](https://docs.rke2.io/install/ha) is still important. The main difference is around storage and the node sizing to accommodate the anticipated application load. Meaning ensure that there are enough nodes with resources to handle the level of failure the applications and handle. This can be tricky to figure out. Best rule of thumb is have around 30% of the cluster's total resources free. Feel free to reach out to us if you want to deep dive on capacity planning. The Rancher docs has a small section on [capacity planning](https://ranchermanager.docs.rancher.com/reference-guides/best-practices/rancher-server/tips-for-running-rancher#monitor-your-clusters-to-plan-capacity) that is worth a read.
 
+Remember we do not have to create a cluster with heterogeneous nodes. We can vary the nodes sizes and counts to fit our specific needs.
 
+## Node Sizing | CPU, Memory, and Storage
 
-## Operating System
+As we just highlighted we have two different strategies for the Hub and Spoke clusters. There is another differentiator to think about. Control Plane nodes versus Worker nodes. Control Plane nodes are used for the management of the local cluster with components like the API server and etcd. The Workers are where the applications are run from. Speaking of applications, it makes more sense to combine CPU Memory and Storage into this section. Rancher has some good [documentation](https://ranchermanager.docs.rancher.com/pages-for-subheaders/installation-requirements#hardware-requirements) on the subject. We can be more prescriptive here. Keep in mind that you can run other "Enterprise" applications on the Hub cluster. Several that come to mind are [Harbor (Registry)](https://goharbor.io/) and [Gitea (Version Control)](https://gitea.io/en-us/).
 
-For this guide we are going to look at RPM based distributions for the Selinux support. Rancher Government Solutions is focused more on the security side of things. There are a few considerations. There are basically two types of nodes. Control Plane nodes are the ones that have Rancher and RKE2 management components running on them. They will need to be scaled in relation to the number applications or clusters accordingly. We will dive a little deeper when we talk about the [Rancher Deployment Strategy](#Rancher-Deployment-Strategy).
+| Cluster Type   | CPU | Memory | Disk | Number of Nodes |
+| ----------- | ----------- | ----------- | ----------- | ----------- |
+| Hub - Control Plane |  4 Core | 8 GB | 100 GB| 3 |
+| Hub - Worker |  8 Core | 16 GB | 200 GB | 3 |
+| Spoke   |  4 Core | 8 GB| 100 GB | 3 |
+| Spoke   |  8 Core | 16 GB | 200 GB| 3 |
+
+Please note that the values above are starting points. If your applications are not that disk intensive, or you plan on using cloud provided storage you can lower the numbers. All nodes should have their load averages monitored. This will give you an indication of when the nodes needs to be scaled. Control Plane nodes should be scaled with more cpu and memory. The worker nodes should be scaled with more nodes. Observability is going to really important here. Good thing Rancher has Grafana, Prometheus, Fluentd charts built in.
+
+### Operating System
+
+For this guide we are going to look at RPM based distributions for the Selinux support. Rancher Government Solutions is focused more on the security side of things. Rocky/RHEL are the preferred Operation Systems. Debian based ones will work as well.
 
 ### Selinux
 
@@ -134,14 +146,6 @@ net.ipv6.conf.default.disable_ipv6 = 1
 EOF
 sysctl -p
 ```
-
-### CPU Memory and Storage
-
-It makes more sense to combine CPU Memory and Storage into one section. Rancher has some good [documentation](https://ranchermanager.docs.rancher.com/pages-for-subheaders/installation-requirements#hardware-requirements) on the subject. We can be more prescriptive here.
-
-
-
-
 
 
 ## RKE2 - Kubernetes
