@@ -60,7 +60,9 @@ Let's look at the Rancher Deployment Strategy before we talk specifics.
 
 The good news is that there is quite a bit of [documentation](https://ranchermanager.docs.rancher.com/reference-guides/best-practices/rancher-server/rancher-deployment-strategy) on the two Rancher Deployment Strategies. We are going to focus on the Hub & Spoke Strategy. This will give us the best flexibility for most use cases. When looking at the Hub & Spoke Strategy we need to break down the requirements for the Hub cluster and the Spoke clusters.
 
+Starting with the Hub cluster. The focus of the Hub cluster is provide enough resources for the Rancher "application" to manage the downstream clusters. The important components for the Hub cluster is cpu and memory for [etcd](https://etcd.io/). This means we need to give a little more cpu/memory head room for this cluster. Good news is that we do not need as much disk space. The number of nodes is also important. We want to ensure that we have high availability, aka redundancy. There are some good docs for [HA RKE2](https://docs.rke2.io/install/ha).
 
+The Spoke clusters have a slightly different strategy. 
 
 
 
