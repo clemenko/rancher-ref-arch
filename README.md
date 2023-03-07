@@ -1,10 +1,10 @@
 ---
-title: Production Reference Architecture for the Rancher Stack
+title: Reference Architecture for the Rancher Stack
 author: Zack Brady - Field Engineer, Andy Clemenko - Field Engineer
 contact: zack.brady@rancherfederal.com, andy.clemenko@rancherfederal.com
 ---
 
-# Production Reference Architecture for the Rancher Stack
+# Reference Architecture for the Rancher Stack
 
 ![rgs-banner](./images/logo_long.jpg)
 
