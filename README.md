@@ -12,8 +12,14 @@ contact: zack.brady@rancherfederal.com, andy.clemenko@rancherfederal.com
 
 * [About Us](#about-us)
 * [Introduction](#introduction)
-* [Rancher Stack](#Rancher-Stack)
-* [Rancher Deployment Strategy](#Rancher-Deployment-Strategy)
+* [Rancher Stack](#rancher-stack)
+* [Rancher Deployment Strategy](#rancher-deployment-strategy)
+* [Node Sizing | CPU, Memory, and Storage](#Node Sizing | CPU, Memory, and Storage)
+  * [Operating System](#operating-system)
+  * [Selinux](#selinux)
+  * [Kernel Tweaks](#kernel-tweaks)
+  * [RKE2 - Kubernetes](#rke2---kubernetes)
+* [Networking](#networking)
 * [Final Thoughts](#final-thoughts)
 
 ## About Us
