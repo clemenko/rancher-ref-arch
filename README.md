@@ -6,7 +6,7 @@ contact: zack.brady@rancherfederal.com, andy.clemenko@rancherfederal.com
 
 # Production Reference Architecture for the Rancher Stack
 
-![rgs-banner](./images/rgs-banner-rounded.png)
+![rgs-banner](./images/logo_long.jpg)
 
 ## Table of Contents
 
