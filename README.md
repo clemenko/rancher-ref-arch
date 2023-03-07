@@ -4,16 +4,15 @@ author: Zack Brady - Field Engineer, Andy Clemenko - Field Engineer
 contact: zack.brady@rancherfederal.com, andy.clemenko@rancherfederal.com
 ---
 
-![rgs-aws-banner](/images/rgs-banner-rounded.png)
-
 # Production Reference Architecture for the Rancher Stack
 
-### Table of Contents
+![rgs-banner](/images/rgs-banner-rounded.png)
+
+## Table of Contents
 
 * [About Us](#about-us)
 * [Introduction](#introduction)
 * [Rancher Deployment Strategy](#Rancher-Deployment-Strategy)
-
 * [Final Thoughts](#final-thoughts)
 
 ## About Us
