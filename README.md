@@ -9,49 +9,54 @@ contact: zack.brady@rancherfederal.com, andy.clemenko@rancherfederal.com
 # Production Reference Architecture for the Rancher Stack
 
 ### Table of Contents
+
 * [About Us](#about-us)
 * [Introduction](#introduction)
-* [Rancher Overview](#rancher-overview)
-* [Architecture](#architecture)
-* [Implementation](#implementation)
-* [Unlimited Alternatives](#unlimited-alternatives)
+* [Rancher Deployment Strategy](#Rancher-Deployment-Strategy)
+
 * [Final Thoughts](#final-thoughts)
 
 ## About Us
 
-A little bit Zack Brady, his history, and what he's done in the industry. 
-- DOD/IC Contractor
-- U.S. Military Veteran
-- Open-Source Contributor
-- Built and Exited a Digital Firm
-- Active Volunteer Firefighter/EMT
+A little bit Zack Brady, his history, and what he's done in the industry.
 
-A little bit Andy Clemenko, his history, and what he's done in the industry. 
-- DOD/IC Contractor
-- Docker Federal (PS, SE, TAM)
-- RedHat/Stackrox Federal (SE)
-- Rancher Advocate (6+ Years)
-- Volunteer Firefighter/EMT
+* DOD/IC Contractor
+* U.S. Military Veteran
+* Open-Source Contributor
+* Built and Exited a Digital Firm
+* Active Volunteer Firefighter/EMT
+
+A little bit Andy Clemenko, his history, and what he's done in the industry.
+
+* DOD/IC Contractor
+* Docker Federal (PS, SE, TAM)
+* RedHat/Stackrox Federal (SE)
+* Rancher Advocate (6+ Years)
+* Volunteer Firefighter/EMT
 
 ## Introduction
 
-In a perfect world, you would be able to click one button or type one command and all your problems would be solved. We don't live in a perfect world and we don't have one button or one command to solve all your problems, but we're pretty close. 
+It's almost impossible to configure and implement a solution to fit every customer, every environment, and every situation. Hopefully this reference architecture will be able to provide you a great starting point to apply to your customer, your environment, and your situation. This guide is intended to highlight an idea deployment of Rancher and a few downstream clusters.
 
-It's almost impossible to configure and implement a solution to fit every customer, every environment, and every situation. Hopefully this reference architecture will be able to provide you a great starting point to apply to your customer, your environment, and your situation. 
+We are going to look at the Rancher stack in a slightly different order. This is due to Rancher being the primary decision driver.
 
-## Rancher Overview
+## Rancher Deployment Strategy
 
-
-## Architecture
-
-
-## Implementation
+The good news is that there is quite a bit of [documentation](https://ranchermanager.docs.rancher.com/reference-guides/best-practices/rancher-server/rancher-deployment-strategy) on the two Rancher Deployment Strategies. We are going to focus on the Hub & Spoke Strategy. This will give us the best flexibility for most use cases. When looking at the Hub & Spoke Strategy we need to break down the requirements for the Hub cluster and the Spoke clusters. 
 
 
-## Unlimited Alternatives
+
+
+
+## Operating Systems - Rocky
+
+## RKE2 - Kubernetes
+https://docs.rke2.io/install/ha
+
+
+
+
 
 
 ## Final Thoughts
 
-
-*WIP WIP WIP*
