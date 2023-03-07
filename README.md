@@ -6,7 +6,7 @@ contact: zack.brady@rancherfederal.com, andy.clemenko@rancherfederal.com
 
 # Production Reference Architecture for the Rancher Stack
 
-![rgs-banner](/images/rgs-banner-rounded.png)
+![rgs-banner](./images/rgs-banner-rounded.png)
 
 ## Table of Contents
 
@@ -61,7 +61,7 @@ Let's look at the Rancher Deployment Strategy before we talk specifics.
 
 ## Rancher Deployment Strategy
 
-![spoke](/images/topo.jpg)
+![spoke](./images/topo.jpg)
 
 The good news is that there is quite a bit of [documentation](https://ranchermanager.docs.rancher.com/reference-guides/best-practices/rancher-server/rancher-deployment-strategy) on the two Rancher Deployment Strategies. We are going to focus on the Hub & Spoke Strategy. This will give us the best flexibility for most use cases. When looking at the Hub & Spoke Strategy we need to break down the requirements for the Hub cluster and the Spoke clusters.
 
@@ -78,11 +78,13 @@ As we just highlighted we have two different strategies for the Hub and Spoke cl
 | Cluster Type   | CPU | Memory | Disk | Number of Nodes |
 | ----------- | ----------- | ----------- | ----------- | ----------- |
 | Hub - Control Plane |  4 Core | 8 GB | 100 GB| 3 |
-| Hub - Worker |  8 Core | 16 GB | 200 GB | 3 |
+| Hub - Worker |  8 Core | 16 GB | 200 GB | 3+ |
 | Spoke   |  4 Core | 8 GB| 100 GB | 3 |
-| Spoke   |  8 Core | 16 GB | 200 GB| 3 |
+| Spoke   |  8 Core | 16 GB | 200 GB| 3+ |
 
-Please note that the values above are starting points. If your applications are not that disk intensive, or you plan on using cloud provided storage you can lower the numbers. All nodes should have their load averages monitored. This will give you an indication of when the nodes needs to be scaled. Control Plane nodes should be scaled with more cpu and memory. The worker nodes should be scaled with more nodes. Observability is going to really important here. Good thing Rancher has Grafana, Prometheus, Fluentd charts built in.
+Please note that the values above are starting points. If your applications are not that disk intensive, or you plan on using cloud provided storage you can lower the numbers. All nodes should leverage SSD or faster storage. All nodes should have their load averages monitored. This will give you an indication of when the nodes needs to be scaled. Control Plane nodes should be scaled with more cpu and memory. The worker nodes should be scaled with more nodes. Observability is going to really important here. Good thing Rancher has Grafana, Prometheus, Fluentd charts built in.
+
+One strategy that we might want to consider is the "lot of little" nodes. This strategy works handles failures and upgrades really well. Meaning when a node goes down there is not a lot of the total capacity lost. Case in point, if we have 4 worker nodes and one goes down we have lost 1/4 or 25% of the total capacity. Where as with 10 worker nodes, we would only lose 10% of the total capacity.
 
 ### Operating System
 
@@ -153,16 +155,24 @@ EOF
 sysctl -p
 ```
 
+Now we can look at Kubernetes.
 
 ## RKE2 - Kubernetes
-https://docs.rke2.io/install/ha
 
+Of course we prefer [RKE2](https://docs.rke.io) for the simple fact that is has a DISA STIG. There is a nice article about it from [Businesswire](https://www.businesswire.com/news/home/20221101005546/en/DISA-Validates-Rancher-Government-Solutions%E2%80%99-Kubernetes-Distribution-RKE2-Security-Technical-Implementation-Guide). We even has a [tl;dr](https://github.com/clemenko/rke2/blob/main/RKE2_STIG.md) with the config. One important thing to implement is that all the Control Plane nodes should be configured in [High Availability](https://docs.rke2.io/install/ha) mode. At a high level the three Control Plane nodes should use DNS round robin or a Layer 4 Load Balancer. The [docs](https://docs.rke2.io/install/ha) go into greater detail. And the other good news is that RKE2 is 100% air gap compliant.
 
+Bottom Line:
+
+* Control Plane nodes in High Availability
+* All nodes STIG'd
+
+Let's take a look at how all the nodes are connected.
 
 ## Networking
 
+![layout](./images/layout.jpg)
 
-
+Networking can be painful if we let it be. If we break the problem down it can be easy. Let's start with the official [Port List](https://ranchermanager.docs.rancher.com/getting-started/installation-and-upgrade/installation-requirements/port-requirements). We can see that there are potentially a lot of ports that need to be open. For this reason I recommend to keep the firewalls and security groups wide open between the nodes. What helps with this is if each cluster is contained within a subnet or VPC. This makes the security groups and firewalls easier to manage. Another major consideration is around the Rancher Load Balancer and Ingress. Ideally we want to have at least two dedicated Load Balancer for Ingress. Each cluster will have an external Load Balancer pointing to the Ingress ports.
 
 ## Final Thoughts
 
