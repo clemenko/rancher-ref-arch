@@ -20,6 +20,7 @@ contact: zack.brady@rancherfederal.com, andy.clemenko@rancherfederal.com
   * [Kernel Tweaks](#kernel-tweaks)
   * [RKE2 - Kubernetes](#rke2---kubernetes)
 * [Networking](#networking)
+* [Longhorn](#longhorn)
 * [Final Thoughts](#final-thoughts)
 
 ## About Us
@@ -54,8 +55,8 @@ There are other great products in the catalog, but we are going to focus on the 
 
 * Operating System of Choice - We prefer RPM based due to Selinux support.
 * [RKE2](https://www.rancher.com/products/rke) - Rancher's Kubernetes Distribution
-* [Longhorn](https://www.rancher.com/products/longhorn) - Rancher's Persistent Storage
 * [Rancher](https://www.rancher.com/products/rancher) - Multi-Cluster Kubernetes Manager
+* [Longhorn](https://www.rancher.com/products/longhorn) - Rancher's Persistent Storage
 
 Let's look at the Rancher Deployment Strategy before we talk specifics.
 
@@ -161,10 +162,13 @@ Now we can look at Kubernetes.
 
 Of course we prefer [RKE2](https://docs.rke.io) for the simple fact that is has a DISA STIG. There is a nice article about it from [Businesswire](https://www.businesswire.com/news/home/20221101005546/en/DISA-Validates-Rancher-Government-Solutions%E2%80%99-Kubernetes-Distribution-RKE2-Security-Technical-Implementation-Guide). We even has a [tl;dr](https://github.com/clemenko/rke2/blob/main/RKE2_STIG.md) with the config. One important thing to implement is that all the Control Plane nodes should be configured in [High Availability](https://docs.rke2.io/install/ha) mode. At a high level the three Control Plane nodes should use DNS round robin or a Layer 4 Load Balancer. The [docs](https://docs.rke2.io/install/ha) go into greater detail. And the other good news is that RKE2 is 100% air gap compliant.
 
+Another tweak at our disposal is to reserve kubernetes or system resources. The Kubernetes documentation site has a [page](https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/) on the subject. These settings allow us to limit the amount of resources that can be allocated to applications versus kube itself.
+
 Bottom Line:
 
 * Control Plane nodes in High Availability
 * All nodes STIG'd
+* Reserve system resources - as needed
 
 Let's take a look at how all the nodes are connected.
 
@@ -173,6 +177,16 @@ Let's take a look at how all the nodes are connected.
 ![layout](./images/layout.jpg)
 
 Networking can be painful if we let it be. If we break the problem down it can be easy. Let's start with the official [Port List](https://ranchermanager.docs.rancher.com/getting-started/installation-and-upgrade/installation-requirements/port-requirements). We can see that there are potentially a lot of ports that need to be open. For this reason I recommend to keep the firewalls and security groups wide open between the nodes. What helps with this is if each cluster is contained within a subnet or VPC. This makes the security groups and firewalls easier to manage. Another major consideration is around the Rancher Load Balancer and Ingress. Ideally we want to have at least two dedicated Load Balancer for Ingress. Each cluster will have an external Load Balancer pointing to the Ingress ports.
+
+## Longhorn
+
+Longhorn has a few tweaks that should be considered. The Longhorn [Best Practices](https://longhorn.io/docs/1.4.0/best-practices/) pages highlights some interesting points. The main takeaway for this guide is the [Minimal Available Storage](https://longhorn.io/docs/1.4.0/best-practices/#minimal-available-storage-and-over-provisioning) section. Here the guide recommends setting the `minimal available storage percentage` to 25% and the `overprovisioning percentage` to 200%. The best way to set these two settings is with the following Helm command.
+
+```bash
+helm upgrade -i longhorn  longhorn/longhorn -n longhorn-system --create-namespace --set ingress.enabled=true --set ingress.host=longhorn.$domain --set default.storageMinimalAvailablePercentage=25 --set default.storageOverProvisioningPercentage=200 
+```
+
+Keep in mind that the Over-provisioning percentage really depends on level of disk utilization of the Persistent Volume Claims. Meaning it depends on the average use of the "requested" volume sizes.
 
 ## Final Thoughts
 
