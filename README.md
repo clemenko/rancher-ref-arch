@@ -72,7 +72,7 @@ One strategy that we might want to consider is the "lot of little" nodes. This s
 
 ### Operating System
 
-For this guide we are going to look at RPM based distributions for the Selinux support. Rancher Government Solutions is focused more on the security side of things. Rocky/RHEL are the preferred Operation Systems. Debian based ones will work as well.
+For this guide we are going to look at RPM based distributions for the Selinux support. Rancher Government Solutions is focused more on the security side of things. Rocky/RHEL are the preferred Operation Systems. Debian based ones will work as well. Pay attention to the Operating System STIG requirements. We have seen `fapolicy` cause issues. Some troubleshooting may be involved.
 
 ### Selinux
 
@@ -150,7 +150,7 @@ Another tweak at our disposal is to reserve kubernetes or system resources. The 
 Bottom Line:
 
 * Control Plane nodes in High Availability
-* All nodes STIG'd
+* All nodes STIG'd - CIS Benchmark may break things
 * Reserve system resources - as needed
 
 Let's take a look at how all the nodes are connected.
