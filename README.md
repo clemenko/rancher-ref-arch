@@ -10,7 +10,6 @@ contact: zack.brady@rancherfederal.com, andy.clemenko@rancherfederal.com
 
 ## Table of Contents
 
-* [About Us](#about-us)
 * [Introduction](#introduction)
 * [Rancher Stack](#rancher-stack)
 * [Rancher](#rancher)
@@ -22,24 +21,6 @@ contact: zack.brady@rancherfederal.com, andy.clemenko@rancherfederal.com
 * [Networking](#networking)
 * [Longhorn](#longhorn)
 * [Final Thoughts](#final-thoughts)
-
-## About Us
-
-A little bit Zack Brady, his history, and what he's done in the industry.
-
-* DOD/IC Contractor
-* U.S. Military Veteran
-* Open-Source Contributor
-* Built and Exited a Digital Firm
-* Volunteer Firefighter/EMT
-
-A little bit Andy Clemenko, his history, and what he's done in the industry.
-
-* DOD/IC Contractor
-* Docker Federal (PS, SE, TAM)
-* RedHat/Stackrox Federal (SE)
-* Rancher Advocate (6+ Years)
-* Volunteer Firefighter/EMT/Pump Operator
 
 ## Introduction
 
