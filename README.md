@@ -43,7 +43,7 @@ A little bit Andy Clemenko, his history, and what he's done in the industry.
 
 ## Introduction
 
-It's almost impossible to configure and implement a solution to fit every customer, every environment, and every situation. Hopefully this reference architecture will be able to provide you a great starting point to apply to your customer, your environment, and your situation. This guide is intended to highlight an idea deployment of Rancher and a few downstream clusters.
+It's almost impossible to configure and implement a solution to fit every customer, every environment, and every situation. Hopefully this reference architecture will be able to provide you a great starting point to apply to your customer, your environment, and your situation. This guide is intended to highlight an ideal deployment of Rancher and a few downstream clusters.
 
 By the end of this guide we will have a very good sense of what a production deployment of Rancher looks like. Use this guide to build your clusters or compare to what has already been built. This guide is solely looking at the operating system up. Meaning we do include tips for virtualized environments like affinity rules.
 
@@ -51,7 +51,7 @@ Let's start by looking at the Rancher stack.
 
 ## Rancher Stack
 
-There are other great products in the catalog, but we are going to focus on the "trinity" for this guide. The Rancher basic stack looks like the following.
+There are other great products in the catalog, but we are going to focus on the "trinity" of RKE2, Rancher, and Longhorn for this guide. We need to think about the Operating System for this guide.
 
 * Operating System of Choice - We prefer RPM based due to Selinux support.
 * [RKE2](https://www.rancher.com/products/rke) - Rancher's Kubernetes Distribution
@@ -60,11 +60,11 @@ There are other great products in the catalog, but we are going to focus on the 
 
 Let's look at the Rancher Deployment Strategy before we talk specifics.
 
-## Rancher Deployment Strategy
+## Rancher
 
 ![spoke](./images/topo.jpg)
 
-Good news. Rancher's [documentation](https://ranchermanager.docs.rancher.com/reference-guides/best-practices/rancher-server/rancher-deployment-strategy) lays out the two Rancher Deployment Strategies. We are going to focus on the Hub & Spoke Strategy. This will give us the best flexibility for most use cases. When looking at the Hub & Spoke Strategy we need to break down the requirements for the Hub cluster and the Spoke clusters.
+Good news. Rancher's [documentation](https://ranchermanager.docs.rancher.com/reference-guides/best-practices/rancher-server/rancher-deployment-strategy) lays out two Rancher Deployment Strategies, Hub & Spoke and Regional. We are going to focus on the Hub & Spoke Strategy. This will give us the best flexibility for most use cases. When looking at the Hub & Spoke Strategy we need to break down the requirements for the Hub cluster and the Spoke clusters.
 
 Starting with the Hub cluster. The focus of the Hub cluster is provide enough resources for the Rancher "application" to manage the downstream clusters. The important components for the Hub cluster is cpu and memory for [etcd](https://etcd.io/). This means we need to give a little more cpu/memory head room for this cluster. Good news is that we do not need as much disk space. The number of nodes is also important. We want to ensure that we have high availability, aka redundancy. There are some good docs for [HA RKE2](https://docs.rke2.io/install/ha). The Rancher [documentation](https://ranchermanager.docs.rancher.com/reference-guides/best-practices/rancher-server/tips-for-running-rancher) has a few tips to think about.
 
@@ -194,3 +194,6 @@ Keep in mind that the Over-provisioning percentage really depends on level of di
 
 ## Final Thoughts
 
+There is another Rancher Deployment Strategy that could be considered, Decoupled. Decoupled is a strategy that fits the resource constrained environments. That tactical edge is one such environment. In this type of environment it may make sense to ONLY deploy Rancher and all the applications on a single cluster, aka the Rancher cluster. There are also circumstances where the Rancher "application" may not be needed. Thanks to the modularity of the stack we have the flexibility to choose the right components for the right situation.
+
+Hopefully this guide has helped with understanding what a "production" deployment of the Rancher stack looks like. We can see that there are a lot of "game time" decisions that are made. There is not a single deployment to fit all environments. If there are questions please feel free to reach out.
