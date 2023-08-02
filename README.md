@@ -72,7 +72,7 @@ One strategy that we might want to consider is the "lot of little" nodes. This s
 
 ### Operating System
 
-For this guide we are going to look at RPM based distributions for the Selinux support. Rancher Government Solutions is focused more on the security side of things. Rocky/RHEL are the preferred Operation Systems. Debian based ones will work as well. Pay attention to the Operating System STIG requirements. We have seen `fapolicy` cause issues. Some troubleshooting may be involved.
+For this guide we are going to look at RPM based distributions for the Selinux support. Rancher Government Solutions is focused more on the security side of things. [Rocky](https://rockylinux.org)/[RHEL](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux) are the preferred Operation Systems. Debian, aka Ubuntu, based ones will work great as well. [SLES from Suse](https://www.suse.com/products/server/) is a really interesting one since it is not based on RPMS or Debian. It does support SELinux and has a [DISA STIG](https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_SLES_15_V1R10_STIG.zip). Pay attention to the Operating System STIG requirements. We have seen `fapolicy` cause issues. Some troubleshooting may be involved.
 
 ### Selinux
 
