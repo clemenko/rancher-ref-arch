@@ -34,7 +34,7 @@ Let's start by looking at the Rancher stack.
 
 There are other great products in the catalog, but we are going to focus on the "trinity" of RKE2, Rancher, and Longhorn for this guide. We need to think about the Operating System for this guide.
 
-* Operating System of Choice - We prefer RPM based due to Selinux support.
+* Operating System of Choice - Selinux support is ideal
 * [RKE2](https://www.rancher.com/products/rke) - Rancher's Kubernetes Distribution
 * [Rancher](https://www.rancher.com/products/rancher) - Multi-Cluster Kubernetes Manager
 * [Longhorn](https://www.rancher.com/products/longhorn) - Rancher's Persistent Storage
